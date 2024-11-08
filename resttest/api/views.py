@@ -45,9 +45,11 @@ def user_detail(request,pk):
             return Response(serialized.data)
         print(serialized.errors)
         return Response(serialized.errors,status=status.HTTP_400_BAD_REQUEST)
-    else:
+    elif:
         user.delete()
         return Response(status= status.HTTP_204_NO_CONTENT)
+    else:
+        pass
 
 
 
