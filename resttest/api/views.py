@@ -6,7 +6,14 @@ from .serializer import UserSerializer
 
 @api_view(['GET'])
 def get_user(request):
-    users = User.objects.all()
+    users = User.objects.all() # a comment
+    #this is for trials
+    #this is for trials
+    #this is for trials
+    #this is for trials
+    #this is for trials
+    #this is for trials
+
     serialized_users= UserSerializer(users,many= True)
     return Response(serialized_users.data)
 
