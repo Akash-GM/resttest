@@ -4,10 +4,13 @@ from rest_framework import status
 from .models import User
 from .serializer import UserSerializer
 
+
 @api_view(['GET'])
 def get_user(request):
     users = User.objects.all() # a comment
-    #another comment
+    num_visits = request.session.get('num_visits', 0)
+    num_visits += 1
+    print(num_visits)
     serialized_users= UserSerializer(users,many= True)
     return Response(serialized_users.data)
 
@@ -18,6 +21,11 @@ def create_user(request):
     serialized_data = UserSerializer(data=request.data)
     if serialized_data.is_valid():
         serialized_data.save()
+        num_visits = request.session.get('num_visits', 0)
+        num_visits += 1
+        print(num_visits)
+
+
         return Response(serialized_data.data,status=status.HTTP_201_CREATED)
     return Response(serialized_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -38,7 +46,7 @@ def user_detail(request,pk):
         if serialized.is_valid():
             serialized.save()
             return Response(serialized.data)
-        print(serialized.errors)
+
         return Response(serialized.errors,status=status.HTTP_400_BAD_REQUEST)
     else:
         user.delete()
